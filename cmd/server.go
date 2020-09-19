@@ -24,5 +24,5 @@ func serverCmd() command {
 }
 
 func server(opts *serverOption) (err error) {
-	
+	return nil
 }

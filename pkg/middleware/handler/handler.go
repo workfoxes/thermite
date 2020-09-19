@@ -14,5 +14,3 @@ type Config struct {
 	// Optional. PostRequest: nil
 	PostRequest func(c *fiber.Ctx) bool
 }
-
-
