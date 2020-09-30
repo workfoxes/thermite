@@ -19,7 +19,7 @@ examples:
 
 // Commands is list all the acceptable
 var (
-	Commands map[string]Command
+Commands map[string]Command
 )
 
 func init() {
