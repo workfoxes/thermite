@@ -1,16 +1,28 @@
 package web
 
 import (
-	"github.com/airstrik/thermite/pkg/server"
-	"github.com/gofiber/fiber/v2/middleware/compress"
+	"github.com/gofiber/fiber/v2"
+
+	"github.com/workfoxes/thermite/pkg/server"
+	"github.com/workfoxes/thermite/web/routes"
 )
 
-// StartThermite : will start the application server with certain parameter
+// StartThermite : Will start the application server with certain parameter
 func StartThermite(name string, port int) {
-	_server := server.CreateAppServer(name, port)
+	server.InitDatabaseConnection()
 
-	// Add Middleware to Application
-	_server.Use(compress.New(compress.Config{Level: compress.LevelBestCompression}))
+	_server := server.CreateAppServer(name, port)
+	_server.LoadDefaultMiddleware()
+
+	_server.Server.Get("/health", func(c *fiber.Ctx) error {
+		return c.JSON(fiber.Map{
+			"Status": "success",
+		})
+	})
+	api := _server.Server.Group("/api")
+	admin := api.Group("/admin")
+
+	routes.AddAdminRoutes(admin)
 
 	_server.Start()
 }
